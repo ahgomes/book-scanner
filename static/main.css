@@ -1,0 +1,43 @@
+html,
+body {
+    margin: 0;
+    font-family: monospace;
+}
+
+section {
+    padding: 10px 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td,
+th {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+}
+
+button {
+    margin: 10px 0;
+}
+
+nav {
+    display: inline-flex;
+    position: absolute;
+    top: 7.5px;
+    margin-left: 10px;
+}
+
+a.btn,
+button {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
