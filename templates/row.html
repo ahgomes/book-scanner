@@ -1,0 +1,25 @@
+<tr data-key="{{ row[0] }}" hx-post="/table" hx-swap="none" hx-trigger="updateRow"
+    _="on htmx:configRequest(parameters) set parameters['data'] to (@data-key + ',' + innerText of <td/> in me) 
+       on htmx:afterSwap send swapped to <td.tr-index/> ">
+    <td class="tr-index" 
+        _="on load or swapped put (closest <tr/>)'s rowIndex into me 
+           on swapped trigger updateRow">
+    </td>
+    {% for val in row[2:] %}
+    <td contenteditable="true" _="on mutation of anything queue last trigger updateRow">
+        {%- if val == None -%}
+        -
+        {%- else -%}
+        {{ val }}
+        {%- endif -%}
+    </td>
+    {% endfor %}
+    <td class="cell-controls"
+        _="on mouseenter from closest <tr/> toggle *opacity until mouseleave from closest <tr/>">
+        <span class="move-cell"
+            _="on mousedown set (closest <tr/>)@draggable to true 
+               on mouseleave set (closest <tr/>)@draggable to false">::</span>
+        <span class="add-cell" hx-post="/table/add" hx-trigger="click" hx-target="closest <tr/>"
+            hx-swap="afterend">+</span>
+    </td>
+</tr>

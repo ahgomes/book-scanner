@@ -1,24 +1,16 @@
 <table>
     <thead>
         <th>#</th>
-        {% for header in headers[1:] %}
+        {% for header in headers[2:] %}
             <th>{{ header }}</th>
         {% endfor %}
     </thead>
     <tbody>
-        {% for row in data %} 
-        <tr data-key="{{ row[0] }}" hx-swap="none" _="on updateRow set data to  (@data-key + ',' + innerText of <td[contenteditable]/> in me) then call htmx.ajax('POST', '/table', { values: { data: data }})">
-            <td>{{ loop.index }}</td>
-            {% for val in row[1:] %}
-                <td contenteditable="true" _="on mutation of anything queue last trigger updateRow">
-                    {% if val == None %} 
-                        -
-                    {% else %} 
-                        {{ val }}
-                    {% endif %}
-                </td>                
-            {% endfor %}
-        </tr>
+        {% for row in data %}
+            {% include "row.html" %}
         {% endfor %}
+        <tr hx-post="/table/add" hx-target="previous <tr/>" hx-trigger="click" hx-swap="afterend">
+            <td colspan="{{ headers|length - 1 }}">+ New</td>
+        </tr>
     </tbody>
 </table>

@@ -1,11 +1,11 @@
-html,
 body {
     margin: 0;
+    padding: 10px 15px;
     font-family: monospace;
 }
 
 section {
-    padding: 10px 15px;
+    margin: 10px 0;
 }
 
 a {
@@ -17,25 +17,35 @@ table {
     border-collapse: collapse;
 }
 
-td,
-th {
+th,
+td {
     border: 1px solid #ddd;
     text-align: left;
     padding: 8px;
 }
 
-button {
-    margin: 10px 0;
+th:empty,
+td:empty {
+    border: none;
 }
 
-nav {
-    display: inline-flex;
-    position: absolute;
-    top: 7.5px;
-    margin-left: 10px;
+.cell-controls {
+    border: none;
+    opacity: 0;
 }
 
-a.btn,
+.add-cell {
+    cursor: pointer;
+}
+
+.move-cell {
+    cursor: grab;
+}
+
+.move-cell:active {
+    cursor: grabbing;
+}
+
 button {
     margin: 5px;
     padding: 5px;
