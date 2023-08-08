@@ -86,6 +86,15 @@ def update_table():
     
     return ('', 204)
 
+@app.delete('/table/del')
+def del_row():
+    data = request.form.to_dict()['data'].split(',')
+    print(data)
+    sql(f'''
+        DELETE FROM book
+        WHERE book_id="{data[0]}" ''')
+    return ('', 200)
+
 @app.post('/table/add')
 def add_row():
     global row_count

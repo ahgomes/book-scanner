@@ -87,18 +87,9 @@ td:empty {
     user-select: none;
 }
 
-.add-cell {
+.cell-controls span {
     padding: 1px 4px;
     cursor: pointer;
-}
-
-.move-cell {
-    padding: 1px 2px;
-    cursor: grab;
-}
-
-.move-cell:active {
-    cursor: grabbing;
 }
 
 .new-row::before {
