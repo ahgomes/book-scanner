@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from flask_mysqldb import MySQL
 
 from uuid import uuid4 as uuid
+import csv
 
 app = Flask(__name__)
 
@@ -38,7 +39,7 @@ def get_headers():
 # ----------------------------
 # DATA FORMATTING
 # ----------------------------
-def format_headers(headers):
+def format_headers():
     def upper(str:str):
         return str.replace('_', ' ').upper()
     
@@ -70,7 +71,7 @@ def table():
     global row_count
     row_count = len(data) 
 
-    return render_template('table.html', headers=format_headers(headers), data=sorted(data, key=lambda row: row[1]))
+    return render_template('table.html', headers=format_headers(), data=sorted(data, key=lambda row: row[1]))
 
 @app.post('/table')
 def update_table():
@@ -106,6 +107,16 @@ def add_row():
         VALUES ("{row[0]}", {row[1]}) ''')
     
     return render_template('row.html', row=row)
+
+@app.get('/csv')
+def get_csv():
+    data = sql('SELECT * FROM book')
+    path = 'books.csv'
+    with open(path, 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(format_headers())
+        csvwriter.writerows(sorted(data, key=lambda row: row[1]))
+    return send_file(path, as_attachment=True)
 
 @app.route('/vid')
 def vid():
