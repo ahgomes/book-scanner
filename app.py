@@ -13,6 +13,9 @@ mysql = MySQL(app)
 headers = []
 row_count = 0
 
+# ----------------------------
+# SQL ACCESS
+# ----------------------------
 def sql(query):
     cur = mysql.connection.cursor()
     cur.execute(query)
@@ -32,6 +35,9 @@ def get_headers():
 
     return headers
 
+# ----------------------------
+# DATA FORMATTING
+# ----------------------------
 def format_headers(headers):
     def upper(str:str):
         return str.replace('_', ' ').upper()
@@ -49,6 +55,9 @@ def prep_update_data(data):
          
     return list(map(format, zip(headers, data)))
 
+# ----------------------------
+# ROUTE HANDLING
+# ----------------------------
 @app.get('/')
 def index():
     get_headers()
@@ -93,6 +102,9 @@ def add_row():
 def vid():
     return render_template('video.html', data='hello')
 
+# ----------------------------
+# RUN APP
+# ----------------------------
 if __name__ == '__main__':
     app.run(host='localhost',port=3000, debug=True, threaded=True)
     

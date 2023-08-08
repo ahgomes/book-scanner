@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    padding: 10px 15px;
     font-family: monospace;
 }
 
@@ -13,7 +12,57 @@ a {
     color: #000;
 }
 
+i {
+    font-style: normal;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.table-section {
+    width: 100%;
+    margin: 0;
+    padding: 20px 10px 20px calc(3rem + 18px);
+    box-sizing: border-box;
+}
+
+.table-top-bar {
+    display: flex;
+    width: calc(100% - 3rem - 8px);
+    /* table width - .cell-control width - cell padding */
+    gap: 10px;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.table-top-bar h2 {
+    flex: 1;
+    max-width: fit-content;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.5em;
+    margin: 0;
+}
+
+.table-top-bar input {
+    flex: 2;
+    margin: 0 20px;
+    padding: 0 5px;
+}
+
+.table-top-bar .csv-btn {
+    flex: 1;
+    max-width: fit-content;
+}
+
+.table-top-bar .csv-btn i {
+    margin-right: 5px;
+}
+
 table {
+    width: 100%;
     border-collapse: collapse;
 }
 
@@ -30,15 +79,21 @@ td:empty {
 }
 
 .cell-controls {
+    width: 3rem;
+    padding-right: 0;
     border: none;
     opacity: 0;
+    background: none;
+    user-select: none;
 }
 
 .add-cell {
+    padding: 1px 4px;
     cursor: pointer;
 }
 
 .move-cell {
+    padding: 1px 2px;
     cursor: grab;
 }
 
@@ -46,8 +101,18 @@ td:empty {
     cursor: grabbing;
 }
 
-button {
-    margin: 5px;
-    padding: 5px;
-    border: 1px solid #ddd;
+.new-row::before {
+    content: "";
+    display: table-row;
+    height: 10px;
+    visibility: hidden;
+}
+
+.new-row {
+    color: #777;
+    cursor: pointer;
+}
+
+.new-row:hover {
+    background: #f1f1f1;
 }
