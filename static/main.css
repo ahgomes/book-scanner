@@ -30,8 +30,7 @@ button {
 
 .table-top-bar {
     display: flex;
-    width: calc(100% - 3rem - 8px);
-    /* table width - .cell-control width - cell padding */
+    width: calc(100% - 3rem - 8px); /* table width - .cell-control width - cell padding */
     gap: 10px;
     text-align: left;
     margin: 10px 0;
@@ -106,4 +105,21 @@ td:empty {
 
 .new-row:hover {
     background: #f1f1f1;
+}
+
+.new-row div {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.new-row input {
+    flex: 2;
+    width: 17ch;
+    margin: 0 5px;
+    text-align: center;
+}
+
+.new-row output {
+    flex: 1;
 }

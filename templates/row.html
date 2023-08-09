@@ -1,13 +1,15 @@
-<tr data-key="{{ row[0] }}" hx-post="/table" hx-swap="none" hx-trigger="updateRow"
+<tr data-key="{{ row[0] }}" hx-put="/table" hx-swap="none" hx-trigger="updateRow"
     _="on htmx:configRequest(parameters) set parameters['data'] to 
-        (@data-key + ',' + innerText of <td:not(.cell-controls)/> in me) 
+        (@data-key + ';;' + (innerText of <td:not(.cell-controls)/> in me).join(';;'))
        on htmx:afterSwap send swapped to <td.tr-index/>">
     <td class="tr-index" 
-        _="on load or swapped put (closest <tr/>)'s rowIndex into me 
-           on swapped trigger updateRow">
+        _="on load or swapped set :ri to my innerText then put (closest <tr/>)'s rowIndex into me 
+           on swapped if :ri is not my innerText trigger updateRow">
     </td>
     {% for val in row[2:] %}
-    <td contenteditable="true" _="on mutation of anything queue last trigger updateRow">
+    <td contenteditable="true" 
+        _="on mutation of anything queue last set :mut to true
+           on focusout if :mut trigger updateRow then set :mut to false">
         {%- if val == None -%}
         -
         {%- else -%}
@@ -17,12 +19,8 @@
     {% endfor %}
     <td class="cell-controls"
         _="on mouseenter from closest <tr/> toggle *opacity until mouseleave from closest <tr/>">
-        <span class="del-cell" hx-delete="/table/del" hx-trigger="click" hx-target="closest <tr/>" hx-swap="outerHTML"
-            _="on htmx:afterRequest send swapped to <td.tr-index/>">
-            &times
-        </span>
-        <span class="add-cell" hx-post="/table/add" hx-trigger="click" hx-target="closest <tr/>" hx-swap="afterend">
-            +
-        </span>
+        <span class="del-cell" hx-delete="/table" hx-trigger="click" hx-target="closest <tr/>" hx-swap="outerHTML"
+            _="on htmx:afterRequest send swapped to <td.tr-index/>">&times</span>
+        <span class="add-cell" hx-post="/table" hx-trigger="click" hx-target="closest <tr/>" hx-swap="afterend">+</span>
     </td>
 </tr>

@@ -40,11 +40,12 @@ def insert(isbn, data):
     rows[isbn]['ISBN'] = isbn
     table.insert('', tk.END, values=list(rows[isbn].values()))
 
-def search(isbn):
+def search(isbn): 
     url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn
     res = requests.get(url)
     data = res.json()
-    found = data['totalItems'] > 0 
+    items = data.get('totalItems')
+    found = items != None and items > 0 
     
     return found, data
 

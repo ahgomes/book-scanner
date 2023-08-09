@@ -11,8 +11,24 @@
         {% endfor %}
     </tbody>
     <tfoot class="new-row">
-        <tr hx-post="/table/add" hx-target="previous <tr/>" hx-trigger="click" hx-swap="afterend">
-            <td colspan="{{ headers|length - 1 }}">+ ADD</td>
+        <tr hx-post="/table" hx-target="previous <tr/>" hx-trigger="click" hx-swap="afterend"
+            _="on htmx:configRequest(verb, parameters) 
+                if verb is 'post' set parameters['book'] to (first <output/>)'s innerText">
+            <td colspan="{{ headers|length - 1 }}">
+                <div>
+                    <span>+ ADD</span>
+                    <form hx-get="/book" hx-trigger="inputLong throttle:1000ms" 
+                          hx-target="next output" hx-swap="innerHTML" 
+                          _="on click halt  
+                             on htmx:responseError(xhr) put xhr.responseText into next <output/>">
+                        <input name="isbn" type="text" 
+                               _="on input set (next <output/>)'s innerText to '' then 
+                                    if my.value.length is greater than 10 trigger inputLong" 
+                                placeholder="Lookup ISBN" />
+                    </form>
+                    <output></output>
+                </div>
+            </td>
         </tr>
     </tfoot>
 </table>
