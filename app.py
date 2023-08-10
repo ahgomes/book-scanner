@@ -127,21 +127,24 @@ def del_row():
 
 @app.post('/table')
 def add_row():
-    data = request.form.to_dict()
+    args = request.form.to_dict()
     
-    book = data.get('book')
+    book = args.get('book')
     if book == BOOK_NOT_FOUND: book = None
     if book:
         book = json.loads(book)
         cols, vals = prep_add_data(grab_public_headers(headers), book)
-        print(book)
 
     def dequote(l):
         return list(map(lambda s: s.replace('"', ''), l))
 
     global row_count
     row_count += 1
-    row = [uuid(), row_count] + (dequote(vals) if book else [None for _ in grab_public_headers(headers)])
+
+    data = args.get('data')
+    index = row_count if not data else int(data.split(SEPARATOR)[1]) + 1
+    
+    row = [uuid(), index] + (dequote(vals) if book else [None for _ in grab_public_headers(headers)])
 
     sql(f'''
         INSERT INTO book (bookId, listIndex {',' + ','.join(cols) if book else ''})
